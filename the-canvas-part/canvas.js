@@ -4,18 +4,20 @@ function domloaded() {
     var ctx = canvas.getContext('2d');
     ctx.textAlign = 'left';
     ctx.font = '20px Titillium Web';
-
-
-
     setInterval(showClock, 1000);
     var currentSeconds = -1;
-    var score = 50;
+
+
+    //Edit those:
+    var score = 50; //Hmm do you need explanation ?
+    var howMuchTime = 30; //in seconds, gentlemen
+    var positionForY = 100; //the offset from the top edge
+    //End of editable things
+
+
     function showClock() {
         var angle;
         var secHandLength = 60;
-        var howMuchTime = 120; //in seconds, gentlemen
-        var positionForY = 100;
-
         // CLEAR EVERYTHING ON THE CANVAS. RE-DRAW NEW ELEMENTS EVERY SECOND.
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -79,9 +81,6 @@ function domloaded() {
 
             var sec = startSeconds + 1;
             angle = ((Math.PI * 2) * (sec / howMuchTime)) - ((Math.PI * 2) / 4);
-
-
-
             ctx.lineWidth = 1.5;              // HAND WIDTH.
 
             ctx.beginPath();
@@ -94,19 +93,25 @@ function domloaded() {
             ctx.lineTo((canvas.width / 2 - Math.cos(angle) * 20),      // DRAW THE LENGTH.
                 positionForY - Math.sin(angle) * 20);
 
-            ctx.strokeStyle = '#586A73';        // COLOR OF THE HAND.
-            if (sec >= howMuchTime - (3 / 9 * howMuchTime)) {
+
+            //COLORS PART
+            //someone can edit here if he wants :)
+            if (sec >= howMuchTime - (3 / 9 * howMuchTime) && sec < howMuchTime - (1 / 9 * howMuchTime)) {
                 ctx.strokeStyle = '#FF6600';        // COLOR OF THE HAND.
             }
-            if (sec >= howMuchTime - (1 / 9 * howMuchTime)) {
+            else if (sec >= howMuchTime - (1 / 9 * howMuchTime)) {
                 ctx.strokeStyle = '#FF0000';        // COLOR OF THE HAND.
+            } else {
+                ctx.strokeStyle = '#586A73';        // COLOR OF THE HAND.
             }
-
             ctx.stroke();
+
+            //NEXT ITERATION CHANGE
             if (currentSeconds < howMuchTime - 1) {
                 score += 10;
                 currentSeconds += 1;
             }
+
         }
     }
 }
