@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#card{
+			width: 200px;
+			height: 300px;
+			border-radius: 10px;
+			font-family: Arial;
+			font-size: 20px;
+		}
+		.front{
+			background: #fff;
+			border: 1px solid black;
+			padding: 5px;
+			width: 200px;
+			height: 300px;
+			border-radius: 10px;
+		}
+		.back{
+			background: #c00;
+			padding: 5px;	
+			border: 1px solid black;
+			width: 200px;
+			height: 300px;
+			border-radius: 10px;
+			display: none;
+		}
+		svg{
+			position: absolute;
+			top: 5px;
+			left: 200px;
+			width: 600px;
+			height: 600px;
+			border: 3px solid red;
+			border-radius: 10px;
+			background: #ccc;
+		}
+
+	</style>
+</head>
+<body>
+	<!-- <button onclick="flipBack(g0)">Click</button> -->
+	<!-- <button onclick="closeCards()">Close</button> -->
+	<svg id="the-svg">
+
+	</svg>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="scripts/flip.js"></script>
+	<script>
+		var svgNS = 'http://www.w3.org/2000/svg',
+			opened = 0,
+			openedLast,
+			disposedCards = 0,
+			initialCards = 12;
+
+		function createCardSide(x, y, width, height, stroke){
+			var side = document.createElementNS(svgNS, 'rect');
+			side.setAttribute('x', x);
+			side.setAttribute('y', y);
+			side.setAttribute('width', width);
+			side.setAttribute('height', height);
+			side.setAttribute('stroke', stroke);
+			side.setAttribute('rx', 5);
+			side.setAttribute('ry', 5);
+
+			return side;
+		}
+
+		var colors = ['green', 'blue', 'yellow', 'black', 'orange', 'white'];
+
+		function createCard(x, y, width, height, id, stroke, frontID, backID, frontFill){
+			var container = document.createElementNS(svgNS, 'g'),
+				fragment = document.createDocumentFragment(),
+				front = createCardSide(x, y, width, height, stroke),
+				back = createCardSide(x, y, width, height, stroke);
+				front.setAttribute('fill', frontFill);
+				front.setAttribute('id', frontID);
+				back.setAttribute('fill', 'red');
+				back.setAttribute('id', backID);
+
+				fragment.appendChild(front);
+				fragment.appendChild(back);
+				container.appendChild(fragment);
+				container.setAttribute('id', id);
+				container.setAttribute('class', 'card');
+
+			return container;
+		}
+		
+		var svg = document.getElementById('the-svg');
+
+		function createDeck(numberOfUniqueCards){
+			var i, 
+				j,
+				cards = [];
+
+			for(i = 0, j = numberOfUniqueCards; i < numberOfUniqueCards; i += 1, j += 1){
+				cards.push(createCard(0, 0, 100, 150, 'card' + (i + 1), 'white', 'front' + (i+1), 'back' + (i+1), colors[i]));
+				cards.push(createCard(0, 0, 100, 150, 'card' + (j + 1), 'white', 'front' + (j+1), 'back' + (j+1), colors[i]));
+			}
+
+			return cards;
+		}		
+
+		function dealCards(deck, cols){
+			var xOffset = 50,
+				yOffset = 50,
+				cardsCount = 0,
+				fragment = document.createDocumentFragment();
+
+			while(deck.length){
+				var card = deck.splice([Math.floor(Math.random()*deck.length)], 1);
+				card[0].children[0].setAttribute('x', xOffset);
+				card[0].children[1].setAttribute('x', xOffset);
+				card[0].children[0].setAttribute('y', yOffset);
+				card[0].children[1].setAttribute('y', yOffset);
+				fragment.appendChild(card[0]);
+
+				cardsCount += 1;
+				if (cardsCount > 0 && cardsCount % cols === 0) {
+					xOffset = 50;
+					yOffset += 170;
+				} else {
+					xOffset += 120;	
+				}
+			}
+
+			svg.appendChild(fragment);
+		}
+
+		// for(var i = 0; i < initialCards; i +=1){
+		// 	if (i < initialCards/2) {
+		// 		fragment.appendChild(createCard(50 + 150*i, 20, 100, 150, 'card' + (i+1), 'white', 
+		// 			'front' + (i + 1), 'back' + (i + 1), colors[i]));
+		// 	} else {
+		// 		fragment.appendChild(createCard(50 + (i - 6)*70, 120, 100, 150, 'card' + (i+1), 'white', 
+		// 			'front' + (i + 1), 'back' + (i + 1), colors[i - 6]));
+		// 	}
+		// }
+
+		// svg.appendChild(fragment);
+
+		function closeCards(){
+			var cards = $(".card");
+			cards = [].slice.call(cards);
+			for(var i = 0, len = cards.length; i < len; i+=1){
+
+				if(cards[i].children[0].style.zIndex*1){
+					flipBack($('#' + cards[i].id));
+				}
+			}
+		}
+
+		function flipBack(card){
+
+			card.flip(false, false);
+		}
+
+		function hideCards(card1, card2){
+			disposedCards += 2;
+			card1.fadeOut();
+			card2.fadeOut();
+
+			if (disposedCards === initialCards) {
+				setTimeout(function(){
+					alert('Eng game logic');
+				}, 500);
+			}
+		}
+
+		var deck = createDeck(6);
+		
+		dealCards(deck, 4);
+		
+		for(var i = 1; i <= initialCards; i += 1){
+			var front = $('#back' + i),
+				back = $('#front' + i);
+			$('#card' + i).flip({front: front, back: back});
+		}
+
+	</script>
+</body>
+</html>
