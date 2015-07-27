@@ -45,7 +45,17 @@
 	<!-- <button onclick="flipBack(g0)">Click</button> -->
 	<!-- <button onclick="closeCards()">Close</button> -->
 	<svg id="the-svg">
-
+		<defs>
+	        <!-- Radial gradient FROM: "white" TO: "Telerik green" with ALFA CHANNEL: 0.5 -->
+	        <radialGradient id="RadialGradient">
+	            <stop offset="0%" stop-color="rgba(255,255,255,0"/>
+	            <stop offset="100%" stop-color="rgbA(0,155,4,0.5)"/>
+	        </radialGradient>
+	        <!-- Telerik Logo Pattern-->
+	        <pattern id ="Pattern" x="8" y="3" width="0.24" height="0.15">
+	            <path d="M 3.5 3 l 2 -2 l 5 5 l -3 3 l -3 -3 l 5 -5 l 2 2" fill = "none" stroke = "rgba(0,155,4,0.2)" stroke-width="2" />
+	        </pattern>
+   		</defs>
 	</svg>
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="scripts/flip.js"></script>
@@ -75,14 +85,59 @@
 			var container = document.createElementNS(svgNS, 'g'),
 				fragment = document.createDocumentFragment(),
 				front = createCardSide(x, y, width, height, stroke),
-				back = createCardSide(x, y, width, height, stroke);
-				front.setAttribute('fill', frontFill);
-				front.setAttribute('id', frontID);
-				back.setAttribute('fill', 'red');
+				// back = createCardSide(x, y, width, height, stroke);
+				back = document.createElementNS(svgNS, 'g');
+
 				back.setAttribute('id', backID);
 
+				var backLayer1 = createCardSide(x, y, width, height, stroke);
+				backLayer1.setAttribute('fill', 'url(#Pattern)');
+				back.appendChild(backLayer1);
+
+				var backLayer2 = createCardSide(x, y, width, height, stroke);
+				backLayer2.setAttribute('fill', 'url(#RadialGradient)');
+				back.appendChild(backLayer2);
+
+				var backLayer3 = document.createElementNS(svgNS, 'path');
+				backLayer3.setAttribute('fill', 'none');
+				backLayer3.setAttribute('d', 'M' + (x + 84) + ' ' + (y + 90) + ' l 8 -8 l 18 18 l -10 10 l -10 -10 l 18 -18 l 8 8');
+				backLayer3.setAttribute('stroke', 'rgba(0, 155, 4, 0.5)');
+				backLayer3.setAttribute('stroke-width', '5');
+				back.appendChild(backLayer3);
+
+				var backLayer4 = $(document.createElementNS(svgNS, 'text'));
+				backLayer4.attr({
+					'x': x,
+					'y': y,
+					'font-size': '24',
+					'fill': '#fff',
+					'stroke': '#000',
+					'stroke-width': '0.7'
+				});
+				backLayer4.text('Telerik');
+				back.appendChild(backLayer4[0]);
+
+				var backLayer5 = $(document.createElementNS(svgNS, 'text'));
+				backLayer5.attr({
+					'x': x,
+					'y': y,
+					'font-size': '24',
+					'fill': '#fff',
+					'stroke': '#000',
+					'stroke-width': '0.7'
+				});
+				backLayer5.text('Academy');
+				back.appendChild(backLayer5[0]);
+
+
+				front.setAttribute('fill', frontFill);
+				front.setAttribute('id', frontID);
+
+				
 				fragment.appendChild(front);
 				fragment.appendChild(back);
+
+
 				container.appendChild(fragment);
 				container.setAttribute('id', id);
 				container.setAttribute('class', 'card');
@@ -113,10 +168,22 @@
 
 			while(deck.length){
 				var card = deck.splice([Math.floor(Math.random()*deck.length)], 1);
+
 				card[0].children[0].setAttribute('x', xOffset);
-				card[0].children[1].setAttribute('x', xOffset);
+				card[0].children[1].children[0].setAttribute('x', xOffset);
+				card[0].children[1].children[1].setAttribute('x', xOffset);
 				card[0].children[0].setAttribute('y', yOffset);
-				card[0].children[1].setAttribute('y', yOffset);
+				card[0].children[1].children[0].setAttribute('y', yOffset);
+				card[0].children[1].children[1].setAttribute('y', yOffset);
+				card[0].children[1].children[2].setAttribute('d', 'M'  
+					+ (card[0].children[0].getAttribute('x')*1 + 36) + ' ' 
+					+ (card[0].children[0].getAttribute('y')*1 + 45)
+					+ ' l 8 -8 l 18 18 l -10 10 l -10 -10 l 18 -18 l 8 8');
+				card[0].children[1].children[3].setAttribute('x', card[0].children[0].getAttribute('x')*1 + 15);
+				card[0].children[1].children[3].setAttribute('y', card[0].children[0].getAttribute('y')*1 + 100);
+				card[0].children[1].children[4].setAttribute('x', card[0].children[0].getAttribute('x')*1 + 4);
+				card[0].children[1].children[4].setAttribute('y', card[0].children[0].getAttribute('y')*1 + 130);
+				
 				fragment.appendChild(card[0]);
 
 				cardsCount += 1;

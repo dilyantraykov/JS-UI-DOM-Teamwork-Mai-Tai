@@ -25,7 +25,8 @@
       transform: rotateAxis + ($dom.data("reverse") ? "(-180deg)" : "(180deg)"),
       "z-index": "0",
       "backface-visibility": "hidden",
-      "opacity": "0"
+      "opacity": "0",
+      "transition-duration": "0.5s"
       //"display": "none"
       //"transform-origin": "center 0 0",
 
