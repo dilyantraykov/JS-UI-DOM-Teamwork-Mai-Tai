@@ -59,9 +59,30 @@
             <pattern id="Pattern" x="8" y="3" width="0.24" height="0.15">
                 <path d="M 3.5 3 l 2 -2 l 5 5 l -3 3 l -3 -3 l 5 -5 l 2 2" fill="none" stroke="rgba(0,155,4,0.2)" stroke-width="2" />
             </pattern>
-            <pattern id="CssSvg" x="0" y="0" width="100%" height="150%" patternContentUnits="objectBoundingBox">
+            <pattern id="CssSvg" x="0" y="0" width="100%" height="100%" patternContentUnits="objectBoundingBox">
             	<image preserveAspectRatio="none" x="0" y="0" width="1" height="1" xlink:href="../images/css.svg"></image>
         	</pattern>
+        	<pattern id="HtmlSvg" x="0" y="0" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+            	<image preserveAspectRatio="none" x="0" y="0" width="1" height="1" xlink:href="../images/html.svg"></image>
+        	</pattern>
+    		<pattern id="JsSvg" x="0" y="0" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+    	    	<image preserveAspectRatio="none" x="0" y="0" width="1" height="1" xlink:href="../images/js.svg"></image>
+    		</pattern>
+    		<pattern id="CSharpSvg" x="0" y="0" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+    	    	<image preserveAspectRatio="none" x="0" y="0" width="1" height="1" xlink:href="../images/csharp.svg"></image>
+    		</pattern>
+    		<pattern id="Doncho" x="0" y="0" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+    	    	<image preserveAspectRatio="none" x="0" y="0" width="1" height="1" xlink:href="../images/doncho.jpg"></image>
+    		</pattern>
+    		<pattern id="Evlogi" x="0" y="0" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+    	    	<image preserveAspectRatio="none" x="0" y="0" width="1" height="1" xlink:href="../images/evlogi.jpg"></image>
+    		</pattern>
+    		<pattern id="Ivo" x="0" y="0" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+    	    	<image preserveAspectRatio="none" x="0" y="0" width="1" height="1" xlink:href="../images/ivo.jpg"></image>
+    		</pattern>
+    		<pattern id="Niki" x="0" y="0" width="100%" height="100%" patternContentUnits="objectBoundingBox">
+    	    	<image preserveAspectRatio="none" x="0" y="0" width="1" height="1" xlink:href="../images/niki.jpg"></image>
+    		</pattern>
         </defs>
     </svg>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -86,7 +107,7 @@
         return side;
     }
 
-    var colors = ['green', 'blue', 'yellow', 'black', 'orange', 'url(#CssSvg) #fff'];
+    var colors = ['url(#Ivo) #fff', 'url(#Niki) #fff', 'url(#Evlogi) #fff', 'url(#Doncho) #fff', 'url(#CSharpSvg) #fff', 'url(#JsSvg) #fff', 'url(#HtmlSvg) #fff', 'url(#CssSvg) #fff'];
 
     function createCard(x, y, width, height, id, stroke, frontID, backID, frontFill) {
         var container = document.createElementNS(svgNS, 'g'),
